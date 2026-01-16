@@ -586,115 +586,7 @@ The redesigned architecture transforms the two-tier application into a highly av
 
 ### Architecture Diagram Description
 
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│                          Internet Users                               │
-└────────────────────────────┬────────────────────────────────────────┘
-                             │
-                             ▼
-┌─────────────────────────────────────────────────────────────────────┐
-│                     Amazon Route 53 (DNS)                             │
-└────────────────────────────┬────────────────────────────────────────┘
-                             │
-                             ▼
-┌─────────────────────────────────────────────────────────────────────┐
-│              Amazon CloudFront (CDN) + AWS WAF                        │
-│                    (Static Content Caching)                           │
-└────────────┬────────────────────────────────────────┬────────────────┘
-             │                                        │
-             │ (Dynamic Content)                      │ (Static Assets)
-             ▼                                        ▼
-┌─────────────────────────────────┐    ┌──────────────────────────────┐
-│  Application Load Balancer      │    │      Amazon S3               │
-│    (Multi-AZ: us-east-1a/b/c)   │    │   (Static Assets Bucket)     │
-│  - SSL/TLS Termination          │    │  - Versioning Enabled        │
-│  - Health Checks                │    │  - Encryption (KMS)          │
-│  - Connection Draining          │    │  - Lifecycle Policies        │
-└────────────┬────────────────────┘    └──────────────────────────────┘
-             │
-             ▼
-┌─────────────────────────────────────────────────────────────────────┐
-│                    VPC (10.0.0.0/16)                                  │
-│  ┌───────────────────────────────────────────────────────────────┐  │
-│  │              Public Subnets (3 AZs)                           │  │
-│  │  - NAT Gateways (3)                                           │  │
-│  │  - Internet Gateway                                           │  │
-│  └───────────────────────────────────────────────────────────────┘  │
-│                             │                                         │
-│                             ▼                                         │
-│  ┌───────────────────────────────────────────────────────────────┐  │
-│  │         Private App Subnets (3 AZs)                           │  │
-│  │                                                               │  │
-│  │  ┌────────────────────────────────────────────────────────┐  │  │
-│  │  │         Auto Scaling Group (Web Tier)                  │  │  │
-│  │  │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐   │  │  │
-│  │  │  │  EC2 Web    │  │  EC2 Web    │  │  EC2 Web    │   │  │  │
-│  │  │  │  (AZ-1)     │  │  (AZ-2)     │  │  (AZ-3)     │   │  │  │
-│  │  │  │  t3.medium  │  │  t3.medium  │  │  t3.medium  │   │  │  │
-│  │  │  └─────────────┘  └─────────────┘  └─────────────┘   │  │  │
-│  │  │  Min: 2  |  Desired: 3  |  Max: 6                    │  │  │
-│  │  └────────────────────┬───────────────────────────────────  │  │
-│  └───────────────────────┼───────────────────────────────────────┘  │
-│                          │                                           │
-│                          ▼                                           │
-│  ┌───────────────────────────────────────────────────────────────┐  │
-│  │         Private Data Subnets (3 AZs)                          │  │
-│  │                                                               │  │
-│  │  ┌──────────────────────────────────────────────────────┐    │  │
-│  │  │       Amazon ElastiCache (Redis Cluster)             │    │  │
-│  │  │  ┌──────────┐  ┌──────────┐  ┌──────────┐           │    │  │
-│  │  │  │  Cache   │  │  Cache   │  │  Cache   │           │    │  │
-│  │  │  │  Node 1  │  │  Node 2  │  │  Node 3  │           │    │  │
-│  │  │  └──────────┘  └──────────┘  └──────────┘           │    │  │
-│  │  └──────────────────────────────────────────────────────┘    │  │
-│  │                          │                                    │  │
-│  │                          ▼                                    │  │
-│  │  ┌──────────────────────────────────────────────────────┐    │  │
-│  │  │      Amazon RDS (PostgreSQL/MySQL)                   │    │  │
-│  │  │  ┌──────────────┐        ┌──────────────┐           │    │  │
-│  │  │  │   Primary    │───────▶│   Standby    │           │    │  │
-│  │  │  │   (AZ-1)     │ Sync   │   (AZ-2)     │           │    │  │
-│  │  │  │  Multi-AZ    │  Rep   │  (Failover)  │           │    │  │
-│  │  │  └──────────────┘        └──────────────┘           │    │  │
-│  │  │         │                                            │    │  │
-│  │  │         │ Async Replication                          │    │  │
-│  │  │         ▼                                            │    │  │
-│  │  │  ┌──────────────┐                                    │    │  │
-│  │  │  │ Read Replica │                                    │    │  │
-│  │  │  │   (AZ-3)     │                                    │    │  │
-│  │  │  └──────────────┘                                    │    │  │
-│  │  └──────────────────────────────────────────────────────┘    │  │
-│  └───────────────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────────┘
 
-┌─────────────────────────────────────────────────────────────────────┐
-│                    Supporting Services Layer                          │
-├─────────────────────────────────────────────────────────────────────┤
-│  Monitoring & Logging:                                               │
-│  - Amazon CloudWatch (Metrics, Logs, Alarms, Dashboards)            │
-│  - AWS X-Ray (Distributed Tracing)                                  │
-│                                                                      │
-│  Security:                                                           │
-│  - AWS IAM (Identity & Access Management)                           │
-│  - AWS KMS (Key Management Service)                                 │
-│  - AWS Secrets Manager (Credential Rotation)                        │
-│  - Amazon GuardDuty (Threat Detection)                              │
-│  - AWS Security Hub (Security Posture)                              │
-│  - AWS Certificate Manager (SSL/TLS Certificates)                   │
-│                                                                      │
-│  Automation & Operations:                                            │
-│  - AWS CloudFormation (Infrastructure as Code)                      │
-│  - AWS Systems Manager (Patch, Session Manager, Automation)         │
-│  - AWS CodePipeline + CodeDeploy (CI/CD)                           │
-│                                                                      │
-│  Backup & DR:                                                        │
-│  - AWS Backup (Centralized Backup Management)                       │
-│  - Cross-Region Replication (us-west-2 DR Region)                  │
-│                                                                      │
-│  Cost Management:                                                    │
-│  - AWS Cost Explorer, Budgets, Trusted Advisor                      │
-└─────────────────────────────────────────────────────────────────────┘
-```
 
 ### Key Improvements Summary
 
@@ -713,15 +605,15 @@ The redesigned architecture transforms the two-tier application into a highly av
 
 **Well-Architected Framework Alignment:**
 
-✅ **Operational Excellence:** IaC with CloudFormation, CI/CD pipeline, comprehensive monitoring, automated operations
+**Operational Excellence:** IaC with CloudFormation, CI/CD pipeline, comprehensive monitoring, automated operations
 
-✅ **Security:** Defense-in-depth with VPC, Security Groups, WAF, encryption everywhere, IAM roles, threat detection
+**Security:** Defense-in-depth with VPC, Security Groups, WAF, encryption everywhere, IAM roles, threat detection
 
-✅ **Reliability:** Multi-AZ deployment, Auto Scaling, RDS Multi-AZ, automated backups, self-healing infrastructure
+**Reliability:** Multi-AZ deployment, Auto Scaling, RDS Multi-AZ, automated backups, self-healing infrastructure
 
-✅ **Performance Efficiency:** CloudFront CDN, ElastiCache, Auto Scaling, right-sized instances, RDS Performance Insights
+**Performance Efficiency:** CloudFront CDN, ElastiCache, Auto Scaling, right-sized instances, RDS Performance Insights
 
-✅ **Cost Optimization:** Auto Scaling, Reserved Instances, S3 Intelligent-Tiering, continuous cost monitoring and optimization
+**Cost Optimization:** Auto Scaling, Reserved Instances, S3 Intelligent-Tiering, continuous cost monitoring and optimization
 
 ---
 
@@ -843,11 +735,4 @@ Most importantly, I discovered that cloud-native architecture isn't simply repli
 
 
 
-## References
-
-1. AWS Well-Architected Framework - <https://aws.amazon.com/architecture/well-architected/>
-2. AWS Cloud Adoption Framework - <https://aws.amazon.com/cloud-adoption-framework/>
-3. AWS Architecture Center - <https://aws.amazon.com/architecture/>
-4. AWS Security Best Practices - <https://docs.aws.amazon.com/security/>
-5. AWS Pricing Calculator - <https://calculator.aws/>
 
