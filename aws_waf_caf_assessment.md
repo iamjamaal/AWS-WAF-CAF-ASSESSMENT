@@ -617,7 +617,7 @@ The redesigned architecture transforms the two-tier application into a highly av
 
 ---
 
-## Reflection on Learning (150 words)
+## Reflection on Learning 
 
 This lab provided invaluable insights into systematic cloud architecture evaluation using established frameworks. The Well-Architected Framework revealed how the five pillars interconnect—security decisions impact cost, reliability choices affect performance. I learned that optimal architecture requires balancing competing priorities rather than maximizing any single dimension.
 
@@ -627,111 +627,8 @@ Most importantly, I discovered that cloud-native architecture isn't simply repli
 
 ---
 
-## Appendices
 
-### Appendix A: Cost Estimation
 
-**Monthly AWS Cost Estimate (Approximate):**
-
-| Service | Configuration | Monthly Cost (USD) |
-|---------|--------------|-------------------|
-| EC2 Instances | 3x t3.medium (Reserved, 1-year) | $65 |
-| Application Load Balancer | 1 ALB with moderate traffic | $25 |
-| RDS Multi-AZ | db.r6g.xlarge PostgreSQL | $450 |
-| ElastiCache | cache.r6g.large Redis (3 nodes) | $280 |
-| CloudFront | 1 TB data transfer | $85 |
-| S3 Storage | 500 GB with Intelligent-Tiering | $11 |
-| NAT Gateways | 3 NAT Gateways | $100 |
-| Data Transfer | Outbound data transfer (1 TB) | $90 |
-| CloudWatch | Logs, metrics, alarms | $35 |
-| AWS Backup | RDS and EBS snapshots | $40 |
-| Other Services | KMS, Secrets Manager, GuardDuty, WAF | $60 |
-| **TOTAL** | | **~$1,241/month** |
-
-**Annual Cost:** ~$14,900
-
-**On-Premises Comparison:** Previous on-premises costs estimated at $24,000/year (hardware amortization, power, cooling, maintenance, licensing)
-
-**Savings:** ~38% cost reduction with improved availability, scalability, and security
-
-### Appendix B: Migration Roadmap
-
-**Phase 1: Foundation (Weeks 1-4)**
-
-- Establish AWS Organization and multi-account structure
-- Deploy landing zone with networking (VPC, subnets, routing)
-- Implement IAM structure and security baseline
-- Enable CloudTrail, GuardDuty, Security Hub
-- Set up CI/CD pipeline and IaC framework
-
-**Phase 2: Platform Build (Weeks 5-8)**
-
-- Deploy infrastructure using CloudFormation
-- Configure ALB, Auto Scaling Groups, RDS, ElastiCache
-- Implement monitoring and alerting
-- Configure backup and disaster recovery
-- Security hardening and compliance validation
-
-**Phase 3: Application Migration (Weeks 9-11)**
-
-- Migrate database using DMS with minimal downtime
-- Deploy application to EC2 instances
-- Configure CloudFront and S3 for static content
-- Conduct functional and performance testing
-- Prepare rollback procedures
-
-**Phase 4: Cutover and Optimization (Weeks 12-14)**
-
-- DNS cutover using Route 53 weighted routing
-- Monitor closely for 72 hours
-- Decommission on-premises infrastructure
-- Conduct post-migration review
-- Begin continuous optimization cycle
-
-### Appendix C: Security Controls Matrix
-
-| Control Category | Implementation | AWS Service |
-|-----------------|----------------|-------------|
-| Identity & Access | Least privilege IAM policies, MFA enforced | IAM, AWS SSO |
-| Data Protection | Encryption at rest and in transit | KMS, Certificate Manager |
-| Infrastructure Protection | VPC isolation, Security Groups, NACLs | VPC, Security Groups |
-| Detective Controls | Logging, monitoring, threat detection | CloudTrail, GuardDuty |
-| Incident Response | Automated response, playbooks | EventBridge, Lambda, SNS |
-| Compliance | Automated compliance checking | AWS Config, Security Hub |
-
-### Appendix D: Operational Runbooks
-
-**Common Operational Procedures:**
-
-1. **Scale-Out Procedure:** Auto Scaling handles automatically; manual override via console if needed
-2. **Database Failover:** RDS Multi-AZ automatic; test quarterly
-3. **Application Deployment:** CI/CD pipeline automated; rollback via CodeDeploy
-4. **Backup Restoration:** AWS Backup console; documented in DR runbook
-5. **Security Incident Response:** Playbook documented in Security Hub
-6. **Cost Anomaly Investigation:** Cost Explorer analysis; Budget alert investigation
-
-### Appendix E: Monitoring and Alerting Strategy
-
-**Critical Alarms (PagerDuty/On-Call):**
-
-- ALB 5XX errors > 1% for 5 consecutive minutes
-- RDS connections failed > 10 in 5 minutes
-- Auto Scaling Group < 2 healthy instances
-- GuardDuty HIGH severity finding
-
-**Warning Alarms (Email/Slack):**
-
-- CPU utilization > 80% for 10 minutes
-- RDS storage < 20% remaining
-- Cost exceeds 80% of monthly budget
-- CloudFront 4XX error rate > 5%
-
-**Informational Metrics (Dashboard Only):**
-
-- Request count, latency percentiles
-- Cache hit ratio
-- Active connections
-- Data transfer volume
 
 
 
