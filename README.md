@@ -215,22 +215,3 @@ Designed comprehensive AWS solution featuring:
 
 ---
 
-## References & Resources
-
-### AWS Documentation
-
-- [AWS Well-Architected Framework](https://aws.amazon.com/architecture/well-architected/)
-- [AWS Cloud Adoption Framework](https://aws.amazon.com/cloud-adoption-framework/)
-- [AWS Architecture Center](https://aws.amazon.com/architecture/)
-- [AWS Security Best Practices](https://docs.aws.amazon.com/security/)
-
-
-### Training Resources
-
-- [AWS Solutions Architect Associate](https://aws.amazon.com/certification/certified-solutions-architect-associate/)
-- [AWS Architecture Blog](https://aws.amazon.com/blogs/architecture/)
-- [AWS This is My Architecture](https://aws.amazon.com/this-is-my-architecture/)
-
----
-
----
