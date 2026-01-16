@@ -619,11 +619,11 @@ The redesigned architecture transforms the two-tier application into a highly av
 
 ## Reflection on Learning 
 
-This lab provided invaluable insights into systematic cloud architecture evaluation using established frameworks. The Well-Architected Framework revealed how the five pillars interconnect—security decisions impact cost, reliability choices affect performance. I learned that optimal architecture requires balancing competing priorities rather than maximizing any single dimension.
+This lab provided invaluable insights into systematic cloud architecture evaluation using established frameworks. The Well-Architected Framework revealed how the five pillars interconnect security decisions impact cost, reliability choices affect performance. I learned that optimal architecture requires balancing competing priorities rather than maximizing any single dimension.
 
 The Cloud Adoption Framework highlighted that technology is only one aspect of successful migration. Organizational readiness across people, governance, and operations proves equally critical. The People perspective particularly emphasized that without adequate skills development and cultural transformation, even perfect technical architecture will fail.
 
-Most importantly, I discovered that cloud-native architecture isn't simply replicating on-premises infrastructure in AWS—it requires fundamental rethinking of design patterns. Embracing managed services, automation, and elastic scaling unlocks cloud's true value. Moving forward, I'll approach architecture holistically, considering technical excellence, organizational capability, cost implications, and operational sustainability equally. The frameworks provide repeatable methodology for evaluating and communicating architectural decisions effectively.
+Most importantly, I discovered that cloud-native architecture isn't simply replicating on-premises infrastructure in AWS, it requires fundamental rethinking of design patterns. Embracing managed services, automation, and elastic scaling unlocks cloud's true value. Moving forward, I'll approach architecture holistically, considering technical excellence, organizational capability, cost implications, and operational sustainability equally. The frameworks provide repeatable methodology for evaluating and communicating architectural decisions effectively.
 
 ---
 
