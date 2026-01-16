@@ -21,20 +21,20 @@ This document presents a comprehensive assessment of a two-tier web application 
 - Static content (HTML, CSS, JavaScript, images)
 - Application runtime environment
 - Load balancing (if present)
-
+  
 #### Database Tier (Backend)
 
 - Relational database server (MySQL/PostgreSQL/SQL Server)
 - Application data storage
 - Transaction processing
-- Backup mechanisms (potentially manual)
+- Backup mechanisms (manual)
 
 #### Infrastructure Components
 
 - Network configuration
 - Security controls (firewalls, access controls)
 - Monitoring systems (limited)
-- Deployment processes (likely manual)
+- Deployment processes (manual)
 
 ### Identified Risks and Weaknesses
 
