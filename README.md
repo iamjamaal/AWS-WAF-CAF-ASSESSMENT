@@ -38,12 +38,12 @@ This repository contains a comprehensive cloud architecture assessment for migra
 
 | Metric | Before | After | Improvement |
 |--------|--------|-------|-------------|
-| **Availability** | ~95% (single point of failure) | 99.99% (Multi-AZ) | +5% uptime |
+| **Availability** | ~95% (single point of failure) | 99.99% (Multi-AZ) | increase uptime |
 | **Scalability** | Manual, fixed capacity | Auto-scaling (2-6 instances) | Automatic |
-| **Security** | Basic perimeter defense | Defense-in-depth, encryption | 70% risk reduction |
-| **Performance** | No CDN/caching | CloudFront + ElastiCache | 60% latency reduction |
+| **Security** | Basic perimeter defense | Defense-in-depth, encryption | risk reduction |
+| **Performance** | No CDN/caching | CloudFront + ElastiCache |  latency reduction |
 | **Cost** | $24,000/year (CapEx) | $14,900/year (OpEx) | 38% savings |
-| **Deployment** | Manual, hours | Automated CI/CD, minutes | 80% faster |
+| **Deployment** | Manual, hours | Automated CI/CD, minutes |  faster deployment |
 
 ---
 
