@@ -224,12 +224,6 @@ Designed comprehensive AWS solution featuring:
 - [AWS Architecture Center](https://aws.amazon.com/architecture/)
 - [AWS Security Best Practices](https://docs.aws.amazon.com/security/)
 
-### Tools Used
-
-- [AWS Well-Architected Tool](https://aws.amazon.com/well-architected-tool/)
-- [AWS Pricing Calculator](https://calculator.aws/)
-- [Draw.io](https://draw.io/) - Architecture diagrams
-- [CloudFormation](https://aws.amazon.com/cloudformation/) - Infrastructure as Code
 
 ### Training Resources
 
