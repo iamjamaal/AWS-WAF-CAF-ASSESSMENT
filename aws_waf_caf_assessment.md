@@ -182,8 +182,8 @@ The team possesses strong traditional IT infrastructure skills but limited cloud
 
 **Enablers Needed:**
 
-- Dedicated training budget ($2000-3000 per person annually)
-- Time allocation (20% of work time for learning)
+- Dedicated cloud training budget annually
+- Time allocation (~20% of work time for learning)
 - AWS Training and Certification subscriptions
 - Sandbox environments for experimentation
 - Recognition programs rewarding skill development and innovation
